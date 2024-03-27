@@ -24,7 +24,7 @@ const Cart = () => {
         } 
        
 
-        setCartItems(context.cartItems)
+        context.setCartItems(context.cartItems)
 
     }, [])
 
@@ -56,37 +56,38 @@ const Cart = () => {
 
 
     const updateCart = (items) => {
-        setCartItems(items)
+        //console.log(items)
+        context.setCartItems(items)
     }
 
 
-    const makePayment = async () => {
-        const stripe = await loadStripe('pk_test_51OSafaSEi0nlwkT6fE5zbDHnNLjJoQ6INy7jZmoAycZjR0uPPxQ7Fv7eCKLfBELmCJ3vJK1pVWmMLC9c8X7xJTYK00l4lDuWMG');
+    // const makePayment = async () => {
+    //     const stripe = await loadStripe('pk_test_51OSafaSEi0nlwkT6fE5zbDHnNLjJoQ6INy7jZmoAycZjR0uPPxQ7Fv7eCKLfBELmCJ3vJK1pVWmMLC9c8X7xJTYK00l4lDuWMG');
 
-        const body = {
-            products: cartItems
-        }
+    //     const body = {
+    //         products: cartItems
+    //     }
 
-        const headers = {
-            "Content-Type": "application/json"
-        }
+    //     const headers = {
+    //         "Content-Type": "application/json"
+    //     }
 
-        const response = await fetch("http://localhost:7000/api/create-checkout-session", {
-            method: 'POST',
-            headers: headers,
-            body: JSON.stringify(body)
-        })
+    //     const response = await fetch("http://localhost:7000/api/create-checkout-session", {
+    //         method: 'POST',
+    //         headers: headers,
+    //         body: JSON.stringify(body)
+    //     })
 
-        const session = await response.json();
+    //     const session = await response.json();
 
-        const result = stripe.redirectToCheckout({
-            sessionId: session.id
-        })
+    //     const result = stripe.redirectToCheckout({
+    //         sessionId: session.id
+    //     })
 
-        if (result.error) {
-            console.log(result.error)
-        }
-    }
+    //     if (result.error) {
+    //         console.log(result.error)
+    //     }
+    // }
 
 
     return (
@@ -144,6 +145,7 @@ const Cart = () => {
                                             {
                                                 context.cartItems.length !== 0 &&
                                                 context.cartItems?.map((item, index) => {
+                                                    console.log(item)
                                                     return (
                                                         <tr>
                                                             <td width={"50%"}>
@@ -168,7 +170,7 @@ const Cart = () => {
                                                             <td width="20%"><span>Rs:  {parseInt(item.price.split(",").join(""))}</span></td>
 
                                                             <td>
-                                                                <QuantityBox item={item} cartItems={cartItems} index={index} updateCart={updateCart} />
+                                                                <QuantityBox item={item} cartItems={context.cartItems} index={index} updateCart={updateCart} />
                                                             </td>
 
                                                             <td>
@@ -239,8 +241,8 @@ const Cart = () => {
                                     <h5 className='mb-0 text-light'>Total</h5>
                                     <h3 className='ml-auto mb-0 font-weight-bold'><span className='text-g'>
                                         {
-                                            cartItems.length !== 0 &&
-                                            cartItems.map(item => parseInt(item.price.split(",").join("")) * item.quantity).reduce((total, value) => total + value, 0)
+                                            context.cartItems.length !== 0 &&
+                                            context.cartItems?.map(item => parseInt(item.price.split(",").join("")) * item.quantity).reduce((total, value) => total + value, 0)
                                         }
                                     </span></h3>
                                 </div>
@@ -251,8 +253,8 @@ const Cart = () => {
                                 <Link to={'/checkout'}>
                                     <Button className='btn-g btn-lg'
                                         onClick={() => {
-                                            context.setCartTotalAmount(cartItems.length !== 0 &&
-                                                cartItems.map(item => parseInt(item.price.split(",").join("")) * item.quantity).reduce((total, value) => total + value, 0))
+                                            context.setCartTotalAmount(context.cartItems.length !== 0 &&
+                                                context.cartItems.map(item => parseInt(item.price.split(",").join("")) * item.quantity).reduce((total, value) => total + value, 0))
                                         }}
                                     >Proceed To CheckOut</Button>
                                 </Link>
