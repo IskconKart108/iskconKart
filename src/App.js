@@ -55,7 +55,7 @@ function App() {
 
   useEffect(() => {
     getCartData("http://localhost:5000/cartItems");
-}, [cartItems]);
+}, []);
 
 
   // const getData = async (url) => {
