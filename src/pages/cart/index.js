@@ -11,6 +11,7 @@ import axios from 'axios';
 
 import { useNavigate } from 'react-router-dom';
 
+import { loadStripe } from '@stripe/stripe-js';
 
 const Cart = () => {
     const [cartItems, setCartItems] = useState([])
@@ -18,32 +19,22 @@ const Cart = () => {
     const history = useNavigate();
 
     useEffect(() => {
-        if(context.isLogin==="true"){
-            getCartData("http://localhost:5000/cartItems");
-        }else{
+        if (context.isLogin !== "true") {
             history('/');
-        }
+        } 
+       
 
-        window.scrollTo(0,0);
-        
+        setCartItems(context.cartItems)
+
     }, [])
 
-    const getCartData = async (url) => {
-        try {
-            await axios.get(url).then((response) => {
-                setCartItems(response.data);
-            })
-
-        } catch (error) {
-            console.log(error.message);
-        }
-    }
+    
 
 
     const deleteItem = async (id) => {
         const response = await axios.delete(`http://localhost:5000/cartItems/${id}`);
         if (response !== null) {
-            getCartData("http://localhost:5000/cartItems");
+            context.getCartData("http://localhost:5000/cartItems");
             context.removeItemsFromCart(id);
         }
     }
@@ -57,7 +48,7 @@ const Cart = () => {
                 response = axios.delete(`http://localhost:5000/cartItems/${parseInt(item.id)}`);
             })
         if (response !== null) {
-            getCartData("http://localhost:5000/cartItems");
+            context.getCartData("http://localhost:5000/cartItems");
         }
 
         context.emptyCart();
@@ -69,28 +60,55 @@ const Cart = () => {
     }
 
 
+    const makePayment = async () => {
+        const stripe = await loadStripe('pk_test_51OSafaSEi0nlwkT6fE5zbDHnNLjJoQ6INy7jZmoAycZjR0uPPxQ7Fv7eCKLfBELmCJ3vJK1pVWmMLC9c8X7xJTYK00l4lDuWMG');
+
+        const body = {
+            products: cartItems
+        }
+
+        const headers = {
+            "Content-Type": "application/json"
+        }
+
+        const response = await fetch("http://localhost:7000/api/create-checkout-session", {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(body)
+        })
+
+        const session = await response.json();
+
+        const result = stripe.redirectToCheckout({
+            sessionId: session.id
+        })
+
+        if (result.error) {
+            console.log(result.error)
+        }
+    }
 
 
     return (
         <>
-           {
-            context.windowWidth>992 &&  <div className="breadcrumbWrapper mb-4">
-            <div className="container-fluid">
-                <ul className="breadcrumb breadcrumb2 mb-0">
-                    <li>
-                        <Link to={'/'}>Home</Link>
-                    </li>
-                    <li>
-                        Shop
-                    </li>
-                    <li>
-                        Cart
-                    </li>
-                </ul>
-            </div>
-        </div>
+            {
+                context.windowWidth > 992 && <div className="breadcrumbWrapper mb-4">
+                    <div className="container-fluid">
+                        <ul className="breadcrumb breadcrumb2 mb-0">
+                            <li>
+                                <Link to={'/'}>Home</Link>
+                            </li>
+                            <li>
+                                Shop
+                            </li>
+                            <li>
+                                Cart
+                            </li>
+                        </ul>
+                    </div>
+                </div>
 
-           }
+            }
 
             <section className='cartSection mb-5'>
                 <div className='container-fluid'>
@@ -99,7 +117,7 @@ const Cart = () => {
                             <div className='d-flex align-items-center w-100'>
                                 <div className='left'>
                                     <h1 className='hd mb-0'>Your Cart</h1>
-                                    <p>There are <span className='text-g'>3</span> products in your cart</p>
+                                    <p>There are <span className='text-g'>{context.cartItems.length}</span> products in your cart</p>
                                 </div>
 
                                 <span className='ml-auto clearCart d-flex align-items-center cursor '
@@ -124,8 +142,8 @@ const Cart = () => {
 
                                         <tbody>
                                             {
-                                                cartItems.length !== 0 &&
-                                                cartItems.map((item, index) => {
+                                                context.cartItems.length !== 0 &&
+                                                context.cartItems?.map((item, index) => {
                                                     return (
                                                         <tr>
                                                             <td width={"50%"}>
@@ -150,11 +168,11 @@ const Cart = () => {
                                                             <td width="20%"><span>Rs:  {parseInt(item.price.split(",").join(""))}</span></td>
 
                                                             <td>
-                                                            <QuantityBox item={item} cartItems={cartItems} index={index} updateCart={updateCart} />
+                                                                <QuantityBox item={item} cartItems={cartItems} index={index} updateCart={updateCart} />
                                                             </td>
 
                                                             <td>
-                                                            <span className='text-g'>Rs. {parseInt(item.price.split(",").join("")) * parseInt(item.quantity)}</span>
+                                                                <span className='text-g'>Rs. {parseInt(item.price.split(",").join("")) * parseInt(item.quantity)}</span>
                                                             </td>
 
                                                             <td align='center'>
@@ -198,7 +216,7 @@ const Cart = () => {
                                 <div className='d-flex align-items-center mb-4'>
                                     <h5 className='mb-0 text-light'>Subtotal</h5>
                                     <h3 className='ml-auto mb-0 font-weight-bold'><span className='text-g'>
-                                    {
+                                        {
                                             cartItems.length !== 0 &&
                                             cartItems.map(item => parseInt(item.price.split(",").join("")) * item.quantity).reduce((total, value) => total + value, 0)
                                         }
@@ -220,7 +238,7 @@ const Cart = () => {
                                 <div className='d-flex align-items-center mb-4'>
                                     <h5 className='mb-0 text-light'>Total</h5>
                                     <h3 className='ml-auto mb-0 font-weight-bold'><span className='text-g'>
-                                    {
+                                        {
                                             cartItems.length !== 0 &&
                                             cartItems.map(item => parseInt(item.price.split(",").join("")) * item.quantity).reduce((total, value) => total + value, 0)
                                         }
@@ -229,7 +247,16 @@ const Cart = () => {
 
 
                                 <br />
-                                <Button className='btn-g btn-lg'>Proceed To CheckOut</Button>
+
+                                <Link to={'/checkout'}>
+                                    <Button className='btn-g btn-lg'
+                                        onClick={() => {
+                                            context.setCartTotalAmount(cartItems.length !== 0 &&
+                                                cartItems.map(item => parseInt(item.price.split(",").join("")) * item.quantity).reduce((total, value) => total + value, 0))
+                                        }}
+                                    >Proceed To CheckOut</Button>
+                                </Link>
+
 
 
                             </div>
