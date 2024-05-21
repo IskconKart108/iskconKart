@@ -7,7 +7,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from './components/header/header';
 import Footer from './components/footer/footer';
 import Home from './pages/Home/index';
-import About from './pages/About/index';
+// import About from './pages/About/index';
 import Listing from './pages/Listing';
 import NotFound from './pages/NotFound';
 import DetailsPage from './pages/Details';
@@ -15,8 +15,8 @@ import Checkout from './pages/checkout';
 
 import axios from 'axios';
 import Cart from './pages/cart';
-import SignIn from './pages/SignIn';
-import SignUp from './pages/SignUp';
+// import SignIn from './pages/SignIn'; 
+// import SignUp from './pages/SignUp';
 import Loader from './assets/images/loading.gif';
 
 import data from './data';
@@ -53,9 +53,9 @@ function App() {
   }, []);
 
 
-  useEffect(() => {
-    getCartData("http://localhost:5000/cartItems");
-}, []);
+//   useEffect(() => {
+//     getCartData("http://localhost:5000/cartItems");
+// }, []);
 
 
   // const getData = async (url) => {
@@ -162,15 +162,16 @@ function App() {
         
         <Header data={data.productData} />
         <Routes>
-          <Route exact={true} path="/" element={<Home data={data.productData} />} />
-          <Route exact={true} path="/cat/:id" element={<Listing data={data.productData} single={true} />} />
-          <Route exact={true} path="/cat/:id/:id" element={<Listing data={data.productData} single={false} />} />
-          <Route exact={true} path="/product/:id" element={<DetailsPage data={data.productData} />} />
-          <Route exact={true} path="/cart" element={<Cart />} />
-          <Route exact={true} path="/signIn" element={<SignIn />} />
-          <Route exact={true} path="/signUp" element={<SignUp />} />
-          <Route exact={true} path="/checkout" element={<Checkout />} />
-          <Route exact={true} path="*" element={<NotFound />} />
+        <Route exact={true} path="/" element={<Home data={data.productData} />} />
+           <Route exact={true} path="/cat/:id" element={<Listing data={data.productData} single={true} />} />
+           <Route exact={true} path="/cat/:id/:id" element={<Listing data={data.productData} single={false} />} />
+           <Route exact={true} path="/product/:id" element={<DetailsPage data={data.productData} />} />
+           <Route exact={true} path="/cart" element={<Cart />} />
+          {/* <Route exact={true} path="/signIn" element={<SignIn />} /> */}
+          {/* <Route exact={true} path="/signUp" element={<SignUp />} /> */}
+           <Route exact={true} path="/checkout" element={<Checkout />} />
+          <Route exact={true} path="*" element={<NotFound />} /> 
+          
         </Routes>
        <Footer/>
       </MyContext.Provider>

@@ -11,7 +11,7 @@ import axios from 'axios';
 
 import { useNavigate } from 'react-router-dom';
 
-import { loadStripe } from '@stripe/stripe-js';
+ 
 
 const Cart = () => {
     const [cartItems, setCartItems] = useState([])
