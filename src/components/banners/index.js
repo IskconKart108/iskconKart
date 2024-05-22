@@ -9,6 +9,7 @@ const Banners = ()=>{
     return(
 
         
+
         <div className='bannerSection'>
             <div className='container-fluid'>
                 <div className='row'>
