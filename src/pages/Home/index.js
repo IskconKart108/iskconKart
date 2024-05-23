@@ -145,6 +145,7 @@ const Home = (props) => {
                                                 }}
                                             >
                                                 {cat}
+                                                
                                             </a>
                                         </li>
                                     )
