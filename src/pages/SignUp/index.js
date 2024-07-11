@@ -9,14 +9,14 @@ import { Button } from '@mui/material';
 import { useState } from 'react';
 import GoogleImg from '../../assets/images/google.png';
 
-import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { app } from '../../firebase';
+// import { initializeApp } from "firebase/app";
+// import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+// import { app } from '../../firebase';
 
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 
-const auth = getAuth(app);
+// const auth = getAuth(app);
 
 
 const SignUp = () => {
@@ -35,23 +35,23 @@ const SignUp = () => {
 
     const signUp = () => {
         setShowLoader(true);
-        createUserWithEmailAndPassword(auth, formFields.email, formFields.password)
-            .then((userCredential) => {
-                // Signed up 
-                const user = userCredential.user;
-                setShowLoader(false);
-                setFormFields({
-                    email:'',
-                    password:'',
-                    conformPassword:''
-                })
-                // ...
-            })
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                // ..
-            });
+        // createUserWithEmailAndPassword(auth, formFields.email, formFields.password)
+        //     .then((userCredential) => {
+        //         // Signed up 
+        //         const user = userCredential.user;
+        //         setShowLoader(false);
+        //         setFormFields({
+        //             email:'',
+        //             password:'',
+        //             conformPassword:''
+        //         })
+        //         // ...
+        //     })
+        //     .catch((error) => {
+        //         const errorCode = error.code;
+        //         const errorMessage = error.message;
+        //         // ..
+        //     });
     }
 
 

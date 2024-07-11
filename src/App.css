@@ -18,9 +18,12 @@ body{font-family: 'Lato', sans-serif; font-size: 22px;}
 .btn-border svg{opacity: 0.5;}
 .btn-border:hover{border: 1px solid #3bb77e !important; background: #3bb77e !important; color: #fff !important;}
 .btn-border:hover svg{opacity: 1 !important;}
-.btn-g a{color: #fff !important; text-decoration: none !important;}
+.btn-g a{color: white !important; text-decoration: none !important;}
 .btn-g{background: #3bb77e !important; padding: 10px 25px !important; border-radius: 5px !important; color: #fff !important; text-transform: capitalize !important; font-size: 18px !important;}
 .btn-g:hover{background: #FDC040 !important;}
+.btn-w a{color: #3bb77e !important; text-decoration: none !important;}
+.btn-w{background: #f0f0f0 !important; padding: 8px 23px !important; border-radius: 5px !important;border:3px solid #3bb77e !important; color: #3bb77e !important; text-transform: capitalize !important; font-size: 18px !important;}
+.btn-w:hover{background: #000 !important;color: white !important; padding: 10px 25px !important; border:0px !important}
 .btn-lg{font-size: 24px !important; padding: 10px 25px !important;}
 .bg-g,.bg-success{background: #3bb77e !important;}
 .text-g{color: #3bb77e;}

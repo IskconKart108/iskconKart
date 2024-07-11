@@ -204,13 +204,7 @@ const Header = (props) => {
                                     </div>
                                     <ClickAwayListener onClickAway={() => setisOpenDropDown(false)}>
                                         <ul className='list list-inline mb-0 headerTabs'>
-                                            <li className='list-inline-item'>
-                                                <span>
-                                                    <img src={IconCompare} />
-                                                    <span className='badge bg-success rounded-circle'>3</span>
-                                                    Compare
-                                                </span>
-                                            </li>
+                                            
                                             <li className='list-inline-item'>
                                                 <span>
                                                     <img src={IconHeart} />
@@ -252,13 +246,17 @@ const Header = (props) => {
 
                                                     :
 
-
+                                                   
                                                     <li className='list-inline-item'>
+                                                        <Link className='mr-2' to={'/signIn'}>
+                                                            <Button className="btn btn-w">Sign Up</Button>
+                                                        </Link>
+                                                         
                                                         <Link to={'/signIn'}>
                                                             <Button className="btn btn-g">Sign In</Button>
                                                         </Link>
                                                     </li>
-
+                                                       
 
                                             }
 
@@ -291,7 +289,7 @@ const Header = (props) => {
                 <div className='navbarOverlay' onClick={closeNav}></div>
                 <ul className='dropdownMenu dropdownMenuAcc' onClick={closeNav}>
                     <li><Button className='align-items-center'><Link to=""><Person2OutlinedIcon /> My Account</Link></Button></li>
-                    <li><Button className='align-items-center'><Link to=""> <img src={IconCompare} />Compare</Link></Button></li>
+                     
                     <li><Button className='align-items-center'><Link to=""> <img src={IconCart} />Cart</Link></Button></li>
                     <li><Button><Link to=""><LocationOnOutlinedIcon /> Order Tracking</Link></Button></li>
                     <li><Button><Link to=""><FavoriteBorderOutlinedIcon /> My Wishlist</Link></Button></li>

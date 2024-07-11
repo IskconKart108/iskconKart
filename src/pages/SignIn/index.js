@@ -8,9 +8,9 @@ import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined
 import { Button } from '@mui/material';
 import { useState } from 'react';
 import GoogleImg from '../../assets/images/google.png';
-import { initializeApp } from "firebase/app";
-import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider , signInWithPopup } from "firebase/auth";
-import { app } from '../../firebase';
+// import { initializeApp } from "firebase/app";
+// import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider , signInWithPopup } from "firebase/auth";
+// import { app } from '../../firebase';
 
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -21,8 +21,8 @@ import { useContext } from 'react';
 
 import { MyContext } from '../../App';
 
-const auth = getAuth(app);
-const googleProvider = new GoogleAuthProvider();
+// const auth = getAuth(app);
+// const googleProvider = new GoogleAuthProvider();
 
 const SignIn = () => {
 
@@ -55,28 +55,28 @@ const SignIn = () => {
 
     const signIn = () => {
         setShowLoader(true);
-        signInWithEmailAndPassword(auth, formFields.email, formFields.password)
-            .then((userCredential) => {
-                // Signed in 
-                const user = userCredential.user;
-                setShowLoader(false);
-                setFormFields({
-                    email: '',
-                    password: '',
-                });
+        // signInWithEmailAndPassword(auth, formFields.email, formFields.password)
+        //     .then((userCredential) => {
+        //         // Signed in 
+        //         const user = userCredential.user;
+        //         setShowLoader(false);
+        //         setFormFields({
+        //             email: '',
+        //             password: '',
+        //         });
 
-                localStorage.setItem('isLogin',true); 
-                context.signIn();   
+        //         localStorage.setItem('isLogin',true); 
+        //         context.signIn();   
 
-                history('/');
+        //         history('/');
 
 
-                // ...
-            })
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-            });
+        //         // ...
+        //     })
+        //     .catch((error) => {
+        //         const errorCode = error.code;
+        //         const errorMessage = error.message;
+        //     });
 
     }
 
@@ -84,32 +84,32 @@ const SignIn = () => {
 
     const signInWithGoogle=()=>{
         setShowLoader(true);
-        signInWithPopup(auth, googleProvider)
-        .then((result) => {
+        // signInWithPopup(auth, googleProvider)
+        // .then((result) => {
 
-          const credential = GoogleAuthProvider.credentialFromResult(result);
-          const token = credential.accessToken;
-          // The signed-in user info.
-          const user = result.user;
+        //   const credential = GoogleAuthProvider.credentialFromResult(result);
+        //   const token = credential.accessToken;
+        //   // The signed-in user info.
+        //   const user = result.user;
 
-          setShowLoader(false);
+        //   setShowLoader(false);
 
 
-          localStorage.setItem('isLogin',true); 
-          context.signIn();   
+        //   localStorage.setItem('isLogin',true); 
+        //   context.signIn();   
 
-          history('/');
+        //   history('/');
 
-        }).catch((error) => {
-          // Handle Errors here.
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          // The email of the user's account used.
-          const email = error.customData.email;
-          // The AuthCredential type that was used.
-          const credential = GoogleAuthProvider.credentialFromError(error);
-          // ...
-        });
+        // }).catch((error) => {
+        //   // Handle Errors here.
+        //   const errorCode = error.code;
+        //   const errorMessage = error.message;
+        //   // The email of the user's account used.
+        //   const email = error.customData.email;
+        //   // The AuthCredential type that was used.
+        //   const credential = GoogleAuthProvider.credentialFromError(error);
+        //   // ...
+        // });
     }
 
 
